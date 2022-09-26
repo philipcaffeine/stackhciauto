@@ -202,6 +202,9 @@ Enable-ClusterStorageSpacesDirect -PoolFriendlyName "$ClusterName Storage Pool" 
 
 Get-StoragePool
 
+
+
+
 # -------------------------- End of creating cluster
 
 
@@ -213,5 +216,132 @@ Get-StoragePool
 Set-ClusterQuorum –Cluster "Cluster1" -CloudWitness -AccountName "AzureStorageAccountName" -AccessKey "AzureStorageAccountAccessKey"
 
 Set-ClusterQuorum -FileShareWitness "\\fileserver\share" -Credential (Get-Credential)
+
+# Create volume
+
+# https://learn.microsoft.com/en-us/azure-stack/hci/manage/create-volumes
+
+#The New-Volume cmdlet has four parameters you'll always need to provide:
+
+#FriendlyName: Any string you want, for example "Volume1"
+
+#FileSystem: Either CSVFS_ReFS (recommended for all volumes; required for mirror-accelerated parity volumes) or CSVFS_NTFS
+
+#StoragePoolFriendlyName: The name of your storage pool, for example "S2D on ClusterName"
+
+#Size: The size of the volume, for example "10TB"
+
+# in server 1 
+New-Volume -FriendlyName "Volume1" -FileSystem CSVFS_ReFS -StoragePoolFriendlyName S2D* -Size 1TB
+
+Get-StorageTier | Select FriendlyName, ResiliencySettingName, PhysicalDiskRedundancy
+
+# --------------------------------------------------------
+#　Set up a cluster witness
+
+# prepare Azure account 
+# Create an Azure storage account
+
+# https://www.powershellgallery.com/packages/Az/8.3.0
+Install-Module -Name Az -Scope CurrentUser -Repository PSGallery -Force
+# Install-Module -Name Az
+
+Install-Module -Name Az.Storage  -AllowClobber
+Import-Module Az.Storage
+
+# connect to Azure with precreated service principal 
+
+# https://learn.microsoft.com/en-us/powershell/azure/create-azure-service-principal-azureps?view=azps-8.3.0
+
+# $sp = New-AzADServicePrincipal -DisplayName "MTC_StackHCI_Admin_SP"
+# Write-Output $sp.PasswordCredentials.SecretText
+
+# $appId = "your sp app id"
+# $password = "your sp password"
+# $secpasswd = ConvertTo-SecureString $password -AsPlainText -Force
+# $mycreds = New-Object System.Management.Automation.PSCredential ($appId, $secpasswd)
+
+# New-AzRoleAssignment -ObjectId <objectId> `
+# -RoleDefinitionId <roleId> `
+# -ResourceName <resourceName> `
+# -ResourceType <resourceType> `
+# -ResourceGroupName <resourceGroupName>
+
+# Connect-AzAccount -ServicePrincipal -Credential $mycreds -Tenant <you sp tenant id>
+# Get-AzSubscription -SubscriptionName "CSP Azure" | Select-AzSubscription
+
+Connect-AzAccount
+
+$resourceGroup = "tw-mtc-stack_hci_common"
+$location = "eastus"
+New-AzResourceGroup -Name $resourceGroup -Location $location
+$storageAccName = "stackhciacc01"
+
+New-AzStorageAccount -ResourceGroupName $resourceGroup `
+  -Name $storageAccName `
+  -Location $location `
+  -SkuName Standard_LRS `
+  -Kind StorageV2
+
+
+# Copy the access key and endpoint URL
+
+$resourceGroup = "tw-mtc-stack_hci_common"
+$storageAccName = "stackhciacc01"
+$Key = (Get-AzStorageAccountKey -ResourceGroupName $resourceGroup -Name $storageAccName)[0].Value
+Write-Host "storage account key 1 = " $Key
+
+$blobStorageEndpoint = $storageAccName + ".blob.core.windows.net"
+Write-Host $blobStorageEndpoint
+
+#　Create a cloud witness using Windows PowerShell
+
+Set-ClusterQuorum –Cluster "cluster1" -CloudWitness -AccountName $storageAccName -AccessKey $Key
+
+# Use the following cmdlet to create a file share witness. Enter the path to the file server share:
+# Set-ClusterQuorum -FileShareWitness "\\fileserver\share" -Credential (Get-Credential)
+
+
+
+# --------------------------------------------------------
+#　Connect and manage Azure Stack HCI registration
+
+# install Azure Powershell first 
+
+
+New-AzRoleDefinition -InputFile customHCIRole.json
+$user = get-AzAdUser -DisplayName "System Administrator"
+$role = Get-AzRoleDefinition -Name "Azure Stack HCI registration role"
+New-AzRoleAssignment -ObjectId $user.Id -RoleDefinitionId $role.Id -Scope /subscriptions/269030e0-eba5-44e9-8674-ac566e31a6d7
+
+# Register a cluster using PowerShell
+
+# Install the required PowerShell cmdlets on your management computer.
+
+# set repo as trusted 
+Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
+
+Install-Module -Name Az.StackHCI
+
+
+Set-PSRepository -Name Az.StackHCI -InstallationPolicy Trusted
+
+Install-Module -Name Az.StackHCI
+
+# https://github.com/Azure/AzureStackHCI-EvalGuide/blob/main/deployment/steps/3_AzSHCIIntegration.md
+
+# need to input Azure account / password from web 
+# Register-AzStackHCI -SubscriptionId "269030e0-eba5-44e9-8674-ac566e31a6d7" -ComputerName DELLHCINODES01
+
+# Register-AzStackHCI  -SubscriptionId "269030e0-eba5-44e9-8674-ac566e31a6d7" -ComputerName DELLHCINODES01 -ResourceGroupName tw-mtc-stackhci-cluster-rg -ArcServerResourceGroupName tw-mtc-stackhci-cluster-arc-rg
+
+
+Register-AzStackHCI  -SubscriptionId "269030e0-eba5-44e9-8674-ac566e31a6d7" -ComputerName DELLHCINODES01 -ResourceGroupName tw-mtc-stackhci-cluster-rg
+
+# View registration status using PowerShell
+
+# Get-AzureStackHCI
+
+
 
 

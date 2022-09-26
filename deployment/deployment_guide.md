@@ -206,6 +206,7 @@ Get-StoragePool
 
 
 
+
 # Create storage account // how to do that in PS? 
 
 # Create a cloud witness using Windows PowerShell
@@ -214,4 +215,65 @@ Set-ClusterQuorum –Cluster "Cluster1" -CloudWitness -AccountName "AzureStorage
 
 Set-ClusterQuorum -FileShareWitness "\\fileserver\share" -Credential (Get-Credential)
 
+# Create volume
 
+# https://learn.microsoft.com/en-us/azure-stack/hci/manage/create-volumes
+
+#The New-Volume cmdlet has four parameters you'll always need to provide:
+
+#FriendlyName: Any string you want, for example "Volume1"
+
+#FileSystem: Either CSVFS_ReFS (recommended for all volumes; required for mirror-accelerated parity volumes) or CSVFS_NTFS
+
+#StoragePoolFriendlyName: The name of your storage pool, for example "S2D on ClusterName"
+
+#Size: The size of the volume, for example "10TB"
+
+# in server 1 
+New-Volume -FriendlyName "Volume1" -FileSystem CSVFS_ReFS -StoragePoolFriendlyName S2D* -Size 1TB
+
+Get-StorageTier | Select FriendlyName, ResiliencySettingName, PhysicalDiskRedundancy
+
+
+# --------------------------------------------------------
+#　Connect and manage Azure Stack HCI registration
+
+
+# 1. open Azure Portal, Azure Powershell, create json file in cloud storage folder 
+# 2. run the command 
+
+{
+  "Name": "Azure Stack HCI registration role",
+  "Id": null,
+  "IsCustom": true,
+  "Description": "Custom Azure role to allow subscription-level access to register Azure Stack HCI",
+  "Actions": [
+    "Microsoft.Resources/subscriptions/resourceGroups/read",
+    "Microsoft.AzureStackHCI/register/action",
+    "Microsoft.AzureStackHCI/Unregister/Action",
+    "Microsoft.AzureStackHCI/clusters/*",
+    "Microsoft.Authorization/roleAssignments/write",
+    "Microsoft.HybridCompute/register/action",
+    "Microsoft.GuestConfiguration/register/action",
+    "Microsoft.HybridConnectivity/register/action"
+  ],
+  "NotActions": [
+  ],
+"AssignableScopes": [
+    "/subscriptions/269030e0-eba5-44e9-8674-ac566e31a6d7"
+  ]
+}
+
+
+New-AzRoleDefinition -InputFile customHCIRole.json
+
+
+$user = get-AzAdUser -DisplayName "System Administrator"
+$role = Get-AzRoleDefinition -Name "Azure Stack HCI registration role"
+New-AzRoleAssignment -ObjectId $user.Id -RoleDefinitionId $role.Id -Scope /subscriptions/269030e0-eba5-44e9-8674-ac566e31a6d7
+
+# Register a cluster using PowerShell
+
+Install the required PowerShell cmdlets on your management computer.
+
+Install-Module -Name Az.StackHCI
