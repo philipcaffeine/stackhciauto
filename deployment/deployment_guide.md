@@ -8,13 +8,18 @@
 
 ### IoTHub Device Client
 
-| XML variable name                                                                                                         | Status                     | Description                                                                                                                                                                                                          |
+| XML variable name  | Status                     | Description                                                                                                                                                                                                          |
 |------------------------------------------------------------------------------------------------------------------|----------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | server1                     | :heavy_check_mark:         | XML group of variables for 1st node of host                                     |
 | server1 > serverName                    | :heavy_check_mark:         | XML group of variables for 1st node of host                                     |
 | server1 > passwd                    | :heavy_check_mark:         | XML group of variables for 1st node of host                                     |
 | server1 > adapter1                    | :heavy_check_mark:         | XML group of variables for 1st node of host                                     |
+| server1 > adapter2                    | :heavy_check_mark:         | XML group of variables for 1st node of host                                     |
 | server2                     | :heavy_check_mark:         | XML group of variables for 2nd node of host                                     |
+| server2 > serverName                    | :heavy_check_mark:         | XML group of variables for 1st node of host                                     |
+| server2 > passwd                    | :heavy_check_mark:         | XML group of variables for 1st node of host                                     |
+| server2 > adapter1                    | :heavy_check_mark:         | XML group of variables for 1st node of host                                     |
+| server2 > adapter2                    | :heavy_check_mark:         | XML group of variables for 1st node of host                                     |
 
 
 
@@ -24,7 +29,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <configuration>
   <server1>
-    <add name="server1" serverName="xxxxDELLHCINODES01" passwd="xxxxxxxxx" adapter1="SLOT 3 Port 1" adapter2="SLOT 3 Port 2"/>
+    <add name="server1" serverName="xxxxDELLHCINODES01" passwd="xxxxxxxxx" adapter1="SLOT 3 Port 1" c="SLOT 3 Port 2"/>
   </server1>
   <server2>
     <add name="server2" serverName="xxxxDELLHCINODES02" passwd="xxxxxxxxx" adapter1="SLOT 3 Port 1" adapter2="SLOT 3 Port 2"/>
@@ -47,7 +52,7 @@
 ```
 
 
-### script: main1.ps1
+### Script: main1.ps1
 
 - script: main1.ps1
 - purpose: 
@@ -65,7 +70,7 @@
     Step 1.3: Install roles and features
 ```
 
-### script: main2.ps1
+### Script: main2.ps1
 
 - script: main2.ps1
 - purpose: 
@@ -79,7 +84,7 @@
     Step 4: Start cluster 
 ```
 
-### script: main3.ps1
+### Script: main3.ps1
 
 - script: main3.ps1
 - purpose: 
@@ -93,7 +98,7 @@
     Step 4.2: Configure an intent for server 2 
 ```
 
-### script: main4.ps1
+### Script: main4.ps1
 
 - script: main4.ps1
 - purpose: 
@@ -108,7 +113,7 @@
     Post config Step 2 : Create volume
 ```
 
-### script: main5.ps1 
+### Script: main5.ps1 
 
 - script: main5.ps1
 - purpose: 
