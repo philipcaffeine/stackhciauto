@@ -1,3 +1,24 @@
+
+## 
+<#
+script: main4.ps1
+purpose: 
+
+    Post configuration for Stack HCI cluster 
+
+    Step 0: config file loaded 
+
+    Post config Step 1: Set up cluster witness
+        Set up a cluster witness
+        Prepare Azure account 
+        Create an Azure storage account
+
+    Post config Step 2 : Create volume
+#>
+
+# Step 1:load parameters from appConfig.xml
+
+
 $invocation = (Get-Variable MyInvocation).Value
 $currentDirectory = Split-Path $invocation.MyCommand.Path
 Write-Host $currentDirectory
@@ -17,6 +38,7 @@ $myServer1Adapter2 = ""
 
 $myServer2Adapter1 = ""
 $myServer2Adapter2 = ""
+
 
 foreach ($server1 in $appConfig.configuration.server1.add) {
     $myServer1 = $server1.serverName
@@ -75,11 +97,12 @@ foreach ($witness in $appConfig.configuration.witness.add) {
 }
 
 
-# -------------------------- End of creating cluster ---------------------------------------------------
+# -------------------------- End of creating cluster -----------------------------------------------------------
+# --------------------------------------------------------------------------------------------------------------
 
-# --------------------------------------------------------
 # Post config Step 1: Set up cluster witness
-#　Set up a cluster witness
+# Set up a cluster witness
+
 
 Write-Host "Post config Step 1 : set up cluster witness ... "
 
@@ -101,20 +124,21 @@ New-AzStorageAccount -ResourceGroupName $resourceGroup `
 
 # Copy the access key and endpoint URL
 
+
 $Key = (Get-AzStorageAccountKey -ResourceGroupName $resourceGroup -Name $storageAccName)[0].Value
 Write-Host "storage account key 1 = " $Key
 
 $blobStorageEndpoint = $storageAccName + ".blob.core.windows.net"
 Write-Host $blobStorageEndpoint
 
-#Create a cloud witness using Windows PowerShell
+# Create a cloud witness using Windows PowerShell
 
 Set-ClusterQuorum –Cluster $clusterName -CloudWitness -AccountName $storageAccName -AccessKey $Key
 
 
 # --------------------------------------------------------
-
 # Post config Step 2 : Create volume
+
 
 Write-Host "Post config Step 2 : Create volume ..."
 $user = $myServer1 + "\Administrator"

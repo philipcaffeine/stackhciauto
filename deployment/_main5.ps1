@@ -1,3 +1,23 @@
+
+
+## 
+<#
+script: main5.ps1
+purpose: 
+    Post configuration for Stack HCI cluster 
+
+    Step 0: config file loaded 
+    Post config Step 3: Connect and manage Azure Stack HCI registration
+        Install Azure Powershell first 
+        Register a cluster using PowerShell
+        Install the required PowerShell cmdlets on your management computer.
+        Set repo as trusted 
+        Register AzStackHCI
+        View registration status using PowerShell
+#>
+
+
+
 $invocation = (Get-Variable MyInvocation).Value
 $currentDirectory = Split-Path $invocation.MyCommand.Path
 Write-Host $currentDirectory
@@ -84,10 +104,6 @@ foreach ($azureConfig in $appConfig.configuration.azureConfig.add) {
     Write-Host $hciRgName -ForegroundColor Green
 }
 
-
-# -------------------------- End of creating cluster ---------------------------------------------------
-
-# --------------------------------------------------------
 # Post config Step 3: Connect and manage Azure Stack HCI registration
 
 

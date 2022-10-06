@@ -1,3 +1,18 @@
+## 
+
+<#
+script: main3.ps1
+purpose: 
+    Step 0: config file loaded 
+    Step 4: Configure host networking
+    Step 4.1: Review physical adapters
+    Step 4.2: Configure an intent
+    Step 4.2: Configure an intent for server 1 
+    Step 4.2: Configure an intent for server 2 
+#>
+
+# Step 1:load parameters from appConfig.xml
+
 $invocation = (Get-Variable MyInvocation).Value
 $currentDirectory = Split-Path $invocation.MyCommand.Path
 Write-Host $currentDirectory

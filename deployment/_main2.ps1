@@ -1,3 +1,21 @@
+
+## 
+
+<#
+script: main2.ps1
+purpose: 
+
+Step 1:load parameters from appConfig.xml
+Step 2: Prep for cluster setup
+Step 2.1: Prepare drives
+Step 2.2: Test cluster configuration
+Step 3: Create the cluster
+Step 4: Start cluster 
+#>
+
+
+# Step 1:load parameters from appConfig.xml
+
 $invocation = (Get-Variable MyInvocation).Value
 $currentDirectory = Split-Path $invocation.MyCommand.Path
 Write-Host $currentDirectory
@@ -16,6 +34,7 @@ foreach ($server1 in $appConfig.configuration.server1.add) {
     $myServer1 = $server1.serverName
     $myServer1Pass = $server1.passwd
     Write-Host $myServer1 -ForegroundColor Cyan
+    Write-Host $myServer1Pass -ForegroundColor Cyan
 }
 
 foreach ($server2 in $appConfig.configuration.server2.add) {
@@ -98,8 +117,9 @@ Get-ClusterResource
 Get-ClusterNetwork
 #>
 
-
 # start the cluster if it's stopped 
-Write-Host "Step 3: start cluster ... "
+
+Write-Host "Step 4: Start cluster ... "
+
 Start-Cluster -Name $clusterName
 
