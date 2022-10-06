@@ -1,22 +1,27 @@
 
+#### Prepare management server 
+
+Prepare a windows management server that is in same subnet with your 2 Stack HCI physical servers.
+
+#### Prepare Azure account 
+
+Prepare your own Azure account with proper authorization to create new role, and do role assignment.
 
 
-## Prepare Azure account 
-
-### Install Azure Powershell
+#### Install Azure Powershell
 
 https://learn.microsoft.com/en-us/powershell/azure/install-az-ps?view=azps-8.3.0
 
 
-### Server OS version 
+#### Server OS version 
 
-1. OS ready
+OS ready
 
-### Install Azure Powershell
+#### Install Azure Powershell
 
-2. network ready 
+Network ready 
 
-### Install Azure Powershell
+#### Install Azure Powershell
 
-3. supply admin / password
+Supply admin / password
 
