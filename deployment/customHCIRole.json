@@ -1,0 +1,21 @@
+{
+    "Name": "Azure Stack HCI registration role",
+    "Id": null,
+    "IsCustom": true,
+    "Description": "Custom Azure role to allow subscription-level access to register Azure Stack HCI",
+    "Actions": [
+      "Microsoft.Resources/subscriptions/resourceGroups/read",
+      "Microsoft.AzureStackHCI/register/action",
+      "Microsoft.AzureStackHCI/Unregister/Action",
+      "Microsoft.AzureStackHCI/clusters/*",
+      "Microsoft.Authorization/roleAssignments/write",
+      "Microsoft.HybridCompute/register/action",
+      "Microsoft.GuestConfiguration/register/action",
+      "Microsoft.HybridConnectivity/register/action"
+    ],
+    "NotActions": [
+    ],
+  "AssignableScopes": [
+      "/subscriptions/xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+    ]
+  }

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+  <server1>
+    <add name="server1" serverName="xxxxDELLHCINODES01" passwd="xxxxxxxxx" adapter1="SLOT 3 Port 1" adapter2="SLOT 3 Port 2"/>
+  </server1>
+  <server2>
+    <add name="server2" serverName="xxxxDELLHCINODES02" passwd="xxxxxxxxx" adapter1="SLOT 3 Port 1" adapter2="SLOT 3 Port 2"/>
+  </server2>  
+  <domain>
+    <add name="domain" domainUser="abc\administrator" domainName="abc.com" domainPasswd="xxxxx"/>
+  </domain>  
+  <cluster>
+    <add name="cluster" clusterName="dellcluster01" clusterIp="10.1.1.1" intName="Cluster_ComputeStorage" volumeName="Volume1"/>
+  </cluster>
+  <witness>
+    <add name="witness" resourceGroup="xxx-stack_hci_common" location="eastus" storageAccName="xxxstackhciacc01"/>
+  </witness>
+  <azureConfig>
+    <add name="azureConfig" subscriptionId="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" hciRgName="xxx-stackhci-cluster-rg"/>
+  </azureConfig>
+  <appSettings>
+  </appSettings>
+</configuration>

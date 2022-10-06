@@ -10,40 +10,19 @@
 Set-Item WSMAN:\Localhost\Client\TrustedHosts -Value Server1 -Force
 
 
-
-
 # ----------------------------------------------------------------------------------
 
 
 # Step 1.1: Connect to the servers
 
-$myServer = "DELLHCINODES01"
-$user = "$myServer\Administrator"
 
-$passwd = convertto-securestring -AsPlainText -Force -String "P@ssw0rd"
-$cred = new-object -typename System.Management.Automation.PSCredential -argumentlist $user,$passwd
-Enter-PSSession -ComputerName $myServer -Credential $cred
 
 # Step 1.2: Join the domain and add domain accounts
 
 # In each server Enter-PSSession session 
-$myServer = "DELLHCINODES01"
-$domainName = "mtctpe.com"
-$user = "mtctpe\administrator"
-$passwd = convertto-securestring -AsPlainText -Force -String "WS2019Rocks"
-$credDomain = new-object -typename System.Management.Automation.PSCredential -argumentlist $user,$passwd
-
-Add-Computer -DomainName $domainName -Credential $credDomain -Restart -Force
-# Add-LocalGroupMember -Group "Administrators" -Member "king@contoso.local"
 
 # Step 1.3: Install roles and features
 
-$myServer = "DELLHCINODES01"
-Install-WindowsFeature -ComputerName $myServer -Name "BitLocker", "Data-Center-Bridging", "Failover-Clustering", "FS-FileServer", "FS-Data-Deduplication", "Hyper-V", "Hyper-V-PowerShell", "RSAT-AD-Powershell", "RSAT-Clustering-PowerShell", "NetworkATC", "Storage-Replica" -IncludeAllSubFeature -IncludeManagementTools
-
-# $ServerList = "Server1", "Server2", "Server3", "Server4"
-$ServerList = "DELLHCINODES01"
-Restart-Computer -ComputerName $ServerList -WSManAuthentication Kerberos
 
 
 # ----------------------------------------------------------------------------------
@@ -52,29 +31,13 @@ Restart-Computer -ComputerName $ServerList -WSManAuthentication Kerberos
 
 # Step 1.1: Connect to the servers
 
-$myServer = "DELLHCINODES02"
-$user = "$myServer\Administrator"
-$passwd = convertto-securestring -AsPlainText -Force -String "P@ssw0rd"
-$cred = new-object -typename System.Management.Automation.PSCredential -argumentlist $user,$passwd
-Enter-PSSession -ComputerName $myServer -Credential $cred
 
 
 # Step 1.2: Join the domain and add domain accounts
 
-$myServer = "DELLHCINODES02"
-$domainName = "mtctpe.com"
-$user = "mtctpe\administrator"
-$passwd = convertto-securestring -AsPlainText -Force -String "WS2019Rocks"
-$credDomain = new-object -typename System.Management.Automation.PSCredential -argumentlist $user,$passwd
-Add-Computer -DomainName $domainName -Credential $credDomain -Restart -Force
 
 # Step 1.3: Install roles and features
 
-$myServer = "DELLHCINODES02"
-Install-WindowsFeature -ComputerName $myServer -Name "BitLocker", "Data-Center-Bridging", "Failover-Clustering", "FS-FileServer", "FS-Data-Deduplication", "Hyper-V", "Hyper-V-PowerShell", "RSAT-AD-Powershell", "RSAT-Clustering-PowerShell", "NetworkATC", "Storage-Replica" -IncludeAllSubFeature -IncludeManagementTools
-
-$ServerList = "DELLHCINODES02"
-Restart-Computer -ComputerName $ServerList -WSManAuthentication Kerberos
 
 # ----------------------------------------------------------------------------------
 
@@ -99,44 +62,14 @@ Get-ClusterNetwork
 
 # Before you enable Storage Spaces Direct, ensure your permanent drives are empty. Run the following script to remove any old partitions and other data.
 # Fill in these variables with your values
-$ServerList = "DELLHCINODES01", "DELLHCINODES02"
-
-Invoke-Command ($ServerList) {
-    Update-StorageProviderCache
-    Get-StoragePool | ? IsPrimordial -eq $false | Set-StoragePool -IsReadOnly:$false -ErrorAction SilentlyContinue
-    Get-StoragePool | ? IsPrimordial -eq $false | Get-VirtualDisk | Remove-VirtualDisk -Confirm:$false -ErrorAction SilentlyContinue
-    Get-StoragePool | ? IsPrimordial -eq $false | Remove-StoragePool -Confirm:$false -ErrorAction SilentlyContinue
-    Get-PhysicalDisk | Reset-PhysicalDisk -ErrorAction SilentlyContinue
-    Get-Disk | ? Number -ne $null | ? IsBoot -ne $true | ? IsSystem -ne $true | ? PartitionStyle -ne RAW | % {
-        $_ | Set-Disk -isoffline:$false
-        $_ | Set-Disk -isreadonly:$false
-        $_ | Clear-Disk -RemoveData -RemoveOEM -Confirm:$false
-        $_ | Set-Disk -isreadonly:$true
-        $_ | Set-Disk -isoffline:$true
-    }
-    Get-Disk | Where Number -Ne $Null | Where IsBoot -Ne $True | Where IsSystem -Ne $True | Where PartitionStyle -Eq RAW | Group -NoElement -Property FriendlyName
-} | Sort -Property PsComputerName, Count
 
 
 # Step 2.2: Test cluster configuration
 
-    # -------- run in remote ps from management machine 
-
-    # In this step, you'll ensure that the server nodes are configured correctly to create a cluster.
-Test-Cluster -Node $ServerList -Include "Storage Spaces Direct", "Inventory", "Network", "System Configuration"
 
 # Step 3: Create the cluster
 
 # If the servers are using static IP addresses, modify the following command to reflect the static IP address by adding the following parameter and specifying the IP address: -StaticAddress <X.X.X.X>;.
-
-$ClusterName="cluster1" 
-
-# New-Cluster -Name $ClusterName –Node $ServerList –nostorage
-
-# create cluster with static ip 
-
-New-Cluster -Name $ClusterName -Node $ServerList -nostorage -StaticAddres 10.17.70.53
-
 
 
 # A good check to ensure all cluster resources are online:
@@ -178,11 +111,6 @@ Add-NetIntent -Name Cluster_ComputeStorage -Compute -Storage -ClusterName $Clust
 
 # Step 4.3: Validate intent deployment
 
-Get-NetIntent -ClusterName $ClusterName
-
-Get-NetIntentStatus -ClusterName $ClusterName -Name Cluster_ComputeStorage
-Get-VMSwitch -CimSession (Get-ClusterNode).Name | Select Name, ComputerName
-
 
 
 
@@ -203,77 +131,3 @@ Enable-ClusterStorageSpacesDirect -PoolFriendlyName "$ClusterName Storage Pool" 
 Get-StoragePool
 
 # -------------------------- End of creating cluster
-
-
-
-
-# Create storage account // how to do that in PS? 
-
-# Create a cloud witness using Windows PowerShell
-
-Set-ClusterQuorum –Cluster "Cluster1" -CloudWitness -AccountName "AzureStorageAccountName" -AccessKey "AzureStorageAccountAccessKey"
-
-Set-ClusterQuorum -FileShareWitness "\\fileserver\share" -Credential (Get-Credential)
-
-# Create volume
-
-# https://learn.microsoft.com/en-us/azure-stack/hci/manage/create-volumes
-
-#The New-Volume cmdlet has four parameters you'll always need to provide:
-
-#FriendlyName: Any string you want, for example "Volume1"
-
-#FileSystem: Either CSVFS_ReFS (recommended for all volumes; required for mirror-accelerated parity volumes) or CSVFS_NTFS
-
-#StoragePoolFriendlyName: The name of your storage pool, for example "S2D on ClusterName"
-
-#Size: The size of the volume, for example "10TB"
-
-# in server 1 
-New-Volume -FriendlyName "Volume1" -FileSystem CSVFS_ReFS -StoragePoolFriendlyName S2D* -Size 1TB
-
-Get-StorageTier | Select FriendlyName, ResiliencySettingName, PhysicalDiskRedundancy
-
-
-# --------------------------------------------------------
-#　Connect and manage Azure Stack HCI registration
-
-
-# 1. open Azure Portal, Azure Powershell, create json file in cloud storage folder 
-# 2. run the command 
-
-{
-  "Name": "Azure Stack HCI registration role",
-  "Id": null,
-  "IsCustom": true,
-  "Description": "Custom Azure role to allow subscription-level access to register Azure Stack HCI",
-  "Actions": [
-    "Microsoft.Resources/subscriptions/resourceGroups/read",
-    "Microsoft.AzureStackHCI/register/action",
-    "Microsoft.AzureStackHCI/Unregister/Action",
-    "Microsoft.AzureStackHCI/clusters/*",
-    "Microsoft.Authorization/roleAssignments/write",
-    "Microsoft.HybridCompute/register/action",
-    "Microsoft.GuestConfiguration/register/action",
-    "Microsoft.HybridConnectivity/register/action"
-  ],
-  "NotActions": [
-  ],
-"AssignableScopes": [
-    "/subscriptions/269030e0-eba5-44e9-8674-ac566e31a6d7"
-  ]
-}
-
-
-New-AzRoleDefinition -InputFile customHCIRole.json
-
-
-$user = get-AzAdUser -DisplayName "System Administrator"
-$role = Get-AzRoleDefinition -Name "Azure Stack HCI registration role"
-New-AzRoleAssignment -ObjectId $user.Id -RoleDefinitionId $role.Id -Scope /subscriptions/269030e0-eba5-44e9-8674-ac566e31a6d7
-
-# Register a cluster using PowerShell
-
-Install the required PowerShell cmdlets on your management computer.
-
-Install-Module -Name Az.StackHCI

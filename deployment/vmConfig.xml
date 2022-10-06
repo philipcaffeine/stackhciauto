@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+  <server1>
+    <add name="server1" serverName="xxxxxxxxDELLHCINODES01" vmName="xxx-test-vm01" vSwitch="xxx-test-vwitch01"/>
+  </server1>
+  <appSettings>
+  </appSettings>
+</configuration>
