@@ -29,8 +29,8 @@
 
 ### script: main3.ps1
 
-script: main3.ps1
-purpose: 
+- script: main3.ps1
+- purpose: 
 
     Step 0: config file loaded 
     Step 4: Configure host networking
@@ -41,8 +41,8 @@ purpose:
 
 ### script: main4.ps1
 
-script: main4.ps1
-purpose: 
+- script: main4.ps1
+- purpose: 
 
     Post configuration for Stack HCI cluster 
 
@@ -58,8 +58,8 @@ purpose:
 
 ### script: main5.ps1 
 
-script: main5.ps1
-purpose: 
+- script: main5.ps1
+- purpose: 
     Post configuration for Stack HCI cluster 
 
     Step 0: config file loaded 
