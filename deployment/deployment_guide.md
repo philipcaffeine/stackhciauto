@@ -8,10 +8,15 @@
 
 ### IoTHub Device Client
 
-| Features                                                                                                         | Status                     | Description                                                                                                                                                                                                          |
+| XML variable name                                                                                                         | Status                     | Description                                                                                                                                                                                                          |
 |------------------------------------------------------------------------------------------------------------------|----------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| [Authentication](https://docs.microsoft.com/en-us/azure/iot-hub/iot-hub-security-deployment)                     | :heavy_check_mark:         | Connect your device to IoT Hub securely with supported authentication, including symmetric key, X-509 Self Signed, Certificate Authority (CA) Signed, and SASToken                                     |
-| [Send device-to-cloud message](https://docs.microsoft.com/en-us/azure/iot-hub/iot-hub-devguide-messages-d2c)     | :heavy_check_mark:         | Send device-to-cloud messages (max 256KB) to IoT Hub with the option to add custom properties.                                                                                                                       |
+| server1                     | :heavy_check_mark:         | XML group of variables for 1st node of host                                     |
+| server1 > serverName                    | :heavy_check_mark:         | XML group of variables for 1st node of host                                     |
+| server1 > passwd                    | :heavy_check_mark:         | XML group of variables for 1st node of host                                     |
+| server1 > adapter1                    | :heavy_check_mark:         | XML group of variables for 1st node of host                                     |
+| server2                     | :heavy_check_mark:         | XML group of variables for 2nd node of host                                     |
+
+
 
 
 
