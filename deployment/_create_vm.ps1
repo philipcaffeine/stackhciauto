@@ -29,7 +29,7 @@ foreach ($server1 in $appConfig.configuration.server1.add) {
 Get-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V
 Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V-Management-PowerShell
 
-New-VM -ComputerName $myServer1 -Name $vmName -MemoryStartupBytes 4GB -BootDevice VHD -NewVHDPath "C:\Users\Public\Documents\Hyper-V\Virtual Hard Disks\tw-test-vm02.vhdx" -Path .\VMData -NewVHDSizeBytes 20GB -Generation 2 -Switch $vSwitch
+New-VM -ComputerName $myServer1 -Name $vmName -MemoryStartupBytes 2GB -BootDevice VHD -NewVHDPath "C:\Users\Public\Documents\Hyper-V\Virtual Hard Disks\$vmName.vhdx" -Path .\VMData -NewVHDSizeBytes 10GB -Generation 2 -Switch $vSwitch
 
-
-
+Get-VM -ComputerName $myServer1
+Start-VM -Name $vmName -ComputerName $myServer1

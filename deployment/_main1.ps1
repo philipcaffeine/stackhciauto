@@ -1,3 +1,24 @@
+
+## 
+
+<#
+script: main1.ps1
+purpose: 
+
+prepare each server before cluster creation 
+Step 1:load parameters from appConfig.xml
+
+For server 1:
+Step 1.2: Join the domain and add domain accounts
+Step 1.3: Install roles and features
+
+For server 2:
+Step 1.2: Join the domain and add domain accounts
+Step 1.3: Install roles and features
+#>
+
+# Step 1:load parameters from appConfig.xml
+
 $invocation = (Get-Variable MyInvocation).Value
 $currentDirectory = Split-Path $invocation.MyCommand.Path
 Write-Host $currentDirectory
@@ -27,7 +48,7 @@ foreach ($server2 in $appConfig.configuration.server2.add) {
 
 
 $domainName = ""
-$domainuUser = ""
+$domainUser = ""
 $domainPasswd = ""
 
 foreach ($domain in $appConfig.configuration.domain.add) {
@@ -43,10 +64,6 @@ foreach ($domain in $appConfig.configuration.domain.add) {
 # ---- for server 1 ------------------------------------------------
 
 # Step 1.2: Join the domain and add domain accounts
-
-# Enter-PSSession -ComputerName DELLHCINODES01 -Credential $cred
-# Set-Item WSMAN:\Localhost\Client\TrustedHosts -Value $myServer2 -Force
-# In each server Enter-PSSession session 
 
 Set-Item WSMAN:\Localhost\Client\TrustedHosts -Value $myServer1 -Force
 
@@ -82,10 +99,6 @@ Invoke-Command -ComputerName $myServer1 -Credential $cred -ScriptBlock $ScriptBl
 # ---- for server 2 ------------------------------------------------
 
 # Step 1.2: Join the domain and add domain accounts
-
-# Enter-PSSession -ComputerName DELLHCINODES01 -Credential $cred
-# Set-Item WSMAN:\Localhost\Client\TrustedHosts -Value $myServer2 -Force
-# In each server Enter-PSSession session 
 
 Set-Item WSMAN:\Localhost\Client\TrustedHosts -Value $myServer2 -Force
 
