@@ -6,7 +6,7 @@
 2. List of parameters:
 
 
-### IoTHub Device Client
+### Variables for appConfig.xml
 
 | XML variable name  | Status                     | Description                                                                                                                                                                                                          |
 |------------------------------------------------------------------------------------------------------------------|----------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -21,7 +21,7 @@
 | server2 > adapter1                    | :heavy_check_mark:         | XML group of variables for 1st node of host                                     |
 | server2 > adapter2                    | :heavy_check_mark:         | XML group of variables for 1st node of host                                     |
 
-
+.....
 
 
 
@@ -52,7 +52,7 @@
 ```
 
 
-### Script: main1.ps1
+### Script: [main1.ps1](https://github.com/philipcaffeine/stackhciauto/blob/main/deployment/_main1.ps1)
 
 - script: main1.ps1
 - purpose: 
@@ -70,7 +70,7 @@
     Step 1.3: Install roles and features
 ```
 
-### Script: main2.ps1
+### Script: [main2.ps1](https://github.com/philipcaffeine/stackhciauto/blob/main/deployment/_main2.ps1)
 
 - script: main2.ps1
 - purpose: 
@@ -84,7 +84,7 @@
     Step 4: Start cluster 
 ```
 
-### Script: main3.ps1
+### Script: [main3.ps1](https://github.com/philipcaffeine/stackhciauto/blob/main/deployment/_main3.ps1)
 
 - script: main3.ps1
 - purpose: 
@@ -98,7 +98,7 @@
     Step 4.2: Configure an intent for server 2 
 ```
 
-### Script: main4.ps1
+### Script: [main4.ps1](https://github.com/philipcaffeine/stackhciauto/blob/main/deployment/_main4.ps1)
 
 - script: main4.ps1
 - purpose: 
@@ -113,7 +113,7 @@
     Post config Step 2 : Create volume
 ```
 
-### Script: main5.ps1 
+### Script: [main5.ps1](https://github.com/philipcaffeine/stackhciauto/blob/main/deployment/_main5.ps1)
 
 - script: main5.ps1
 - purpose: 
@@ -129,3 +129,5 @@
         Register AzStackHCI
         View registration status using PowerShell
 ```
+
+
