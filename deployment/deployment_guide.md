@@ -11,15 +11,31 @@
 | XML variable name  | Status                     | Description                                                                                                                                                                                                          |
 |------------------------------------------------------------------------------------------------------------------|----------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | server1                     | :heavy_check_mark:         | XML group of variables for 1st node of host                                     |
-| server1 > serverName                    | :heavy_check_mark:         | XML group of variables for 1st node of host, hostname of server node 1                                     |
-| server1 > passwd                    | :heavy_check_mark:         | XML group of variables for 1st node of host, administrator login password of node 1                                     |
-| server1 > adapter1                    | :heavy_check_mark:         | XML group of variables for 1st node of host, adapter name of node 1, the 2 adapters needs to be symmetric, https://learn.microsoft.com/en-us/azure-stack/hci/concepts/host-network-requirements#set                                     |
-| server1 > adapter2                    | :heavy_check_mark:         | XML group of variables for 1st node of host                                     |
+| server1 > serverName                    | :heavy_check_mark:         | hostname of server node 1                                     |
+| server1 > passwd                    | :heavy_check_mark:         | administrator login password of node 1                                     |
+| server1 > adapter1                    | :heavy_check_mark:         | adapter1 name of node 1, the 2 adapters needs to be symmetric, https://learn.microsoft.com/en-us/azure-stack/hci/concepts/host-network-requirements#set                                     |
+| server1 > adapter2                    | :heavy_check_mark:         | adapter2 name of node 1, the 2 adapters needs to be symmetric, https://learn.microsoft.com/en-us/azure-stack/hci/concepts/host-network-requirements#set                                    |
 | server2                     | :heavy_check_mark:         | XML group of variables for 2nd node of host                                     |
-| server2 > serverName                    | :heavy_check_mark:         | XML group of variables for 1st node of host, hostname of server node 2                                     |
-| server2 > passwd                    | :heavy_check_mark:         | XML group of variables for 1st node of host, administrator login password of node 2                                     |
-| server2 > adapter1                    | :heavy_check_mark:         | XML group of variables for 1st node of host                                     |
-| server2 > adapter2                    | :heavy_check_mark:         | XML group of variables for 1st node of host                                     |
+| server2 > serverName                    | :heavy_check_mark:         | hostname of server node 2                                     |
+| server2 > passwd                    | :heavy_check_mark:         | administrator login password of node 2                                     |
+| server2 > adapter1                    | :heavy_check_mark:         | adapter1 name of node 2, the 2 adapters needs to be symmetric, https://learn.microsoft.com/en-us/azure-stack/hci/concepts/host-network-requirements#set                                     |
+| server2 > adapter2                    | :heavy_check_mark:         | adapter2 name of node 2, the 2 adapters needs to be symmetric, https://learn.microsoft.com/en-us/azure-stack/hci/concepts/host-network-requirements#set                                    |
+
+
+| domain                     | :heavy_check_mark:         | XML group of variables for domain to join                                  |
+| domain > domainUser                    | :heavy_check_mark:         | domain controller user for join domain of node1 and 2, for example, abc\administrator                                    |
+| domain > domainName                    | :heavy_check_mark:         | domain name, for example, abc.com                                      |
+| domain > domainPasswd                    | :heavy_check_mark:         | domain password                                     |
+
+| cluster                     | :heavy_check_mark:         | XML group of variables for cluser to create from 2 nodes                                    |
+| cluster > clusterName                    | :heavy_check_mark:         | Cluster Name                                    |
+| cluster > clusterIp                    | :heavy_check_mark:         | Cluster Ip                                     |
+| cluster > intName                    | :heavy_check_mark:         | storage and compute intent name for creation                                    |
+
+| witness                     | :heavy_check_mark:         | XML group of variables for witness as quorum for the cluster                                    |
+| witness > resourceGroup                    | :heavy_check_mark:         | resource group name                                     |
+| witness > location                    | :heavy_check_mark:         | location                                     |
+| witness > storageAccName                    | :heavy_check_mark:         | storage account name                                    |
 
 .....
 
