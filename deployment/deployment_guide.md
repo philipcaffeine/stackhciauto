@@ -32,6 +32,9 @@
 | witness > resourceGroup                    | :heavy_check_mark:         | resource group name                                     |
 | witness > location                    | :heavy_check_mark:         | location                                     |
 | witness > storageAccName                    | :heavy_check_mark:         | storage account name                                    |
+| azureConfig                     | :heavy_check_mark:         | XML group of variables for witness as quorum for the cluster                                    |
+| azureConfig > subscriptionId                    | :heavy_check_mark:         | find your Azure subscription id from Azure Portal                              |
+| azureConfig > hciRgName                    | :heavy_check_mark:         |  provide your Azure resource group to be created to register Stack HCI cluster                                |
 
 .....
 
