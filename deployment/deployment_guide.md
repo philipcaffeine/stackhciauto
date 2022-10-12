@@ -11,13 +11,13 @@
 | XML variable name  | Status                     | Description                                                                                                                                                                                                          |
 |------------------------------------------------------------------------------------------------------------------|----------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | server1                     | :heavy_check_mark:         | XML group of variables for 1st node of host                                     |
-| server1 > serverName                    | :heavy_check_mark:         | XML group of variables for 1st node of host                                     |
-| server1 > passwd                    | :heavy_check_mark:         | XML group of variables for 1st node of host                                     |
-| server1 > adapter1                    | :heavy_check_mark:         | XML group of variables for 1st node of host                                     |
+| server1 > serverName                    | :heavy_check_mark:         | XML group of variables for 1st node of host, hostname of server node 1                                     |
+| server1 > passwd                    | :heavy_check_mark:         | XML group of variables for 1st node of host, administrator login password of node 1                                     |
+| server1 > adapter1                    | :heavy_check_mark:         | XML group of variables for 1st node of host, adapter name of node 1, the 2 adapters needs to be symmetric, https://learn.microsoft.com/en-us/azure-stack/hci/concepts/host-network-requirements#set                                     |
 | server1 > adapter2                    | :heavy_check_mark:         | XML group of variables for 1st node of host                                     |
 | server2                     | :heavy_check_mark:         | XML group of variables for 2nd node of host                                     |
-| server2 > serverName                    | :heavy_check_mark:         | XML group of variables for 1st node of host                                     |
-| server2 > passwd                    | :heavy_check_mark:         | XML group of variables for 1st node of host                                     |
+| server2 > serverName                    | :heavy_check_mark:         | XML group of variables for 1st node of host, hostname of server node 2                                     |
+| server2 > passwd                    | :heavy_check_mark:         | XML group of variables for 1st node of host, administrator login password of node 2                                     |
 | server2 > adapter1                    | :heavy_check_mark:         | XML group of variables for 1st node of host                                     |
 | server2 > adapter2                    | :heavy_check_mark:         | XML group of variables for 1st node of host                                     |
 
