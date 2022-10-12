@@ -39,7 +39,6 @@
 .....
 
 
-
 ```hcl
 <?xml version="1.0" encoding="utf-8"?>
 <configuration>
@@ -65,6 +64,39 @@
   </appSettings>
 </configuration>
 ```
+
+### Variables for customHCIRole.json
+
+Replace below line with your subscription id
+
+ "AssignableScopes": [
+      "/subscriptions/xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+    ]
+  }
+
+### Variables for vmConfig.xml
+
+
+| XML variable name  | Status                     | Description                                                                                                                                                                                                          |
+|------------------------------------------------------------------------------------------------------------------|----------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| server1                     | :heavy_check_mark:         | XML group of variables for 1st node of host                                     |
+| server1 > serverName                    | :heavy_check_mark:         | hostname of server node 1                                     |
+| server1 > vmName                    | :heavy_check_mark:         |  VM Name                                  |
+| server1 > vSwitch                    | :heavy_check_mark:         | vSwitch name which you already created from WAC                                     |
+
+
+```hcl
+<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+  <server1>
+    <add name="server1" serverName="xxxxxxxxDELLHCINODES01" vmName="xxx-test-vm01" vSwitch="xxx-test-vwitch01"/>
+  </server1>
+  <appSettings>
+  </appSettings>
+</configuration>
+```
+
+
 
 
 ### Script: [main1.ps1](https://github.com/philipcaffeine/stackhciauto/blob/main/deployment/_main1.ps1)
