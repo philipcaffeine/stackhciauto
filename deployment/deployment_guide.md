@@ -32,6 +32,7 @@
 | witness > resourceGroup                    | :heavy_check_mark:         | resource group name                                     |
 | witness > location                    | :heavy_check_mark:         | location                                     |
 | witness > storageAccName                    | :heavy_check_mark:         | storage account name                                    |
+
 .....
 
 
